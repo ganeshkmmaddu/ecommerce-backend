@@ -1,6 +1,7 @@
 package com.example.ecommerce.controller;
 
-import com.example.ecommerce.entity.Product;
+import com.example.ecommerce.dto.ProductRequestDTO;
+import com.example.ecommerce.dto.ProductResponseDTO;
 import com.example.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,24 +26,26 @@ public class ProductController {
 	private final ProductService productService;
 
 	@PostMapping
-	public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
-		Product createdProduct = productService.createProduct(product);
+	public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO) {
+		ProductResponseDTO createdProduct = productService.createProduct(productRequestDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Product>> getAllProducts() {
+	public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
 		return ResponseEntity.ok(productService.getAllProducts());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+	public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
 		return ResponseEntity.ok(productService.getProductById(id));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
-		return ResponseEntity.ok(productService.updateProduct(id, product));
+	public ResponseEntity<ProductResponseDTO> updateProduct(
+			@PathVariable Long id,
+			@Valid @RequestBody ProductRequestDTO productRequestDTO) {
+		return ResponseEntity.ok(productService.updateProduct(id, productRequestDTO));
 	}
 
 	@DeleteMapping("/{id}")
