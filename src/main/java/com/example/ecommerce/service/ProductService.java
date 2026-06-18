@@ -7,6 +7,8 @@ import com.example.ecommerce.exception.ResourceNotFoundException;
 import com.example.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.ecommerce.entity.Category;
+import com.example.ecommerce.repository.CategoryRepository;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
 public class ProductService {
 
 	private final ProductRepository productRepository;
+	private final CategoryRepository categoryRepository;
 
 	public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
 		Product product = mapToEntity(productRequestDTO);
@@ -60,6 +63,8 @@ public class ProductService {
 				product.getDescription(),
 				product.getPrice(),
 				product.getStockQuantity(),
+				product.getCategory() != null ? product.getCategory().getId() : null,
+                product.getCategory() != null ? product.getCategory().getName() : null,
 				product.getCreatedAt(),
 				product.getUpdatedAt()
 		);
@@ -71,6 +76,13 @@ public class ProductService {
 		product.setDescription(dto.getDescription());
 		product.setPrice(dto.getPrice());
 		product.setStockQuantity(dto.getStockQuantity());
+		if (dto.getCategoryId() != null) {
+    Category category = categoryRepository.findById(dto.getCategoryId())
+            .orElseThrow(() -> new ResourceNotFoundException(
+                    "Category not found with id: " + dto.getCategoryId()));
+
+    product.setCategory(category);
+    }
 		return product;
 	}
 
