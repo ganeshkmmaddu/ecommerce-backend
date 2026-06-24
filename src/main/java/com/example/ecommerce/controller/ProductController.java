@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Page;
+
 
 import java.util.List;
 
@@ -32,9 +35,13 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-		return ResponseEntity.ok(productService.getAllProducts());
-	}
+     public ResponseEntity<Page<ProductResponseDTO>> getAllProducts(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+
+    return ResponseEntity.ok(productService.getAllProducts(page, size, sortBy));
+    }
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
@@ -53,5 +60,15 @@ public class ProductController {
 		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
 	}
+	@GetMapping("/search")
+    public ResponseEntity<List<ProductResponseDTO>> searchProducts(
+        @RequestParam String keyword,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "id") String sortBy)
+	{
+    List<ProductResponseDTO> products = productService.searchProducts(keyword, page, size, sortBy);
+    return ResponseEntity.ok(products);
+    }
 
 }

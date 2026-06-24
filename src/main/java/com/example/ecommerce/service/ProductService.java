@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.example.ecommerce.entity.Category;
 import com.example.ecommerce.repository.CategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -25,11 +29,24 @@ public class ProductService {
 		return mapToResponseDTO(savedProduct);
 	}
 
-	public List<ProductResponseDTO> getAllProducts() {
-		return productRepository.findAll().stream()
-				.map(this::mapToResponseDTO)
-				.toList();
-	}
+	public Page<ProductResponseDTO> getAllProducts(int page, int size, String sortBy) {
+    Pageable pageable =
+            PageRequest.of(page, size, org.springframework.data.domain.Sort.by(sortBy));
+
+    return productRepository.findAll(pageable)
+            .map(this::mapToResponseDTO);
+   }
+   public List<ProductResponseDTO> searchProducts(String keyword, int page, int size, String sortBy) {
+
+    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+    Page<Product> productPage = productRepository.findByNameContainingIgnoreCase(keyword, pageable);
+
+    return productPage.getContent()
+            .stream()
+            .map(this::mapToResponseDTO)
+            .toList();
+   }
 
 	public ProductResponseDTO getProductById(Long id) {
 		Product product = productRepository.findById(id)
