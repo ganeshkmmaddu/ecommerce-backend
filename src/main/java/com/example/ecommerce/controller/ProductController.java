@@ -67,8 +67,15 @@ public class ProductController {
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(defaultValue = "id") String sortBy)
 	{
+	
     List<ProductResponseDTO> products = productService.searchProducts(keyword, page, size, sortBy);
     return ResponseEntity.ok(products);
     }
+
+	@GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByCategory(@PathVariable Long categoryId) {
+    List<ProductResponseDTO> products = productService.getProductsByCategory(categoryId);
+    return ResponseEntity.ok(products);
+   }
 
 }

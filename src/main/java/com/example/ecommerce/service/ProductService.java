@@ -47,6 +47,14 @@ public class ProductService {
             .map(this::mapToResponseDTO)
             .toList();
    }
+   public List<ProductResponseDTO> getProductsByCategory(Long categoryId) {
+
+    List<Product> products = productRepository.findByCategoryId(categoryId);
+
+    return products.stream()
+            .map(this::mapToResponseDTO)
+            .toList();
+    }
 
 	public ProductResponseDTO getProductById(Long id) {
 		Product product = productRepository.findById(id)
