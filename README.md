@@ -1,94 +1,111 @@
-# E-Commerce Backend
+﻿# E-Commerce Backend
 
-A backend application for an e-commerce platform built using **Spring Boot** and **PostgreSQL**. This project is being developed step-by-step while learning real-world backend development concepts and best practices.
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 17" />
+  <img src="https://img.shields.io/badge/Spring-Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Maven-Build-CA4245?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven" />
+</p>
 
----
+<p align="center">
+  <strong>Developed and maintained by Ganesh Kumar Maddi</strong>
+</p>
 
-## 1. Project Overview
+This project is a backend-focused e-commerce service built with Spring Boot and PostgreSQL. It follows a layered architecture and demonstrates real-world backend concepts such as REST APIs, JPA persistence, entity modeling, service logic, validation, and database integration in a scalable and maintainable structure.
 
-This repository contains the backend service for an e-commerce platform. It follows a layered architecture with clear separation between controllers, services, repositories, and entities.
+## Table of contents
 
-The project is designed as a **learning-focused, production-style codebase** — each milestone adds new backend concepts such as database integration, REST APIs, validation, and future modules like cart, orders, and authentication.
+- [Overview](#overview)
+- [Core features](#core-features)
+- [Tech stack](#tech-stack)
+- [Architecture](#architecture)
+- [Project structure](#project-structure)
+- [Quick start](#quick-start)
+- [API endpoints](#api-endpoints)
+- [Roadmap](#roadmap)
+- [Ownership](#ownership)
 
-**Base package:** `com.example.ecommerce`
+## Overview
 
----
+This repository contains a backend service for an e-commerce platform and is designed as a learning-focused, production-style codebase. The application is structured around clear separation between controller, service, repository, and entity responsibilities, making it easy to extend with new features and modules.
 
-## 2. Tech Stack
+The project is intentionally built in stages so each milestone adds practical backend patterns and production-oriented best practices.
 
-| Technology | Purpose |
-|------------|---------|
-| Java 17 | Programming language |
-| Spring Boot | Application framework |
-| Spring Data JPA | Database access layer |
-| Hibernate | ORM (Object-Relational Mapping) |
-| PostgreSQL (Supabase) | Cloud-hosted relational database |
-| Maven | Build and dependency management |
-| Git | Version control |
-| GitHub | Code hosting and collaboration |
+## Core features
 
----
+| Feature | Description |
+| --- | --- |
+| Spring Boot foundation | Application setup and structure for a modern Java backend |
+| PostgreSQL integration | Data persistence with a cloud-ready relational database |
+| Product domain model | Entity definition and validation metadata |
+| Repository layer | Data access using Spring Data JPA |
+| Service layer | Business logic and processing between controllers and repositories |
+| REST APIs | CRUD endpoints for products and common ecommerce flows |
+| Health endpoint | Basic `/hello` monitoring and validation endpoint |
+| Extensible design | Ready to expand with cart, orders, auth, DTOs, and deployment features |
 
-## 3. Features Implemented
+## Tech stack
 
-- Spring Boot project setup
-- PostgreSQL database integration using Supabase
-- Product Entity with JPA and validation annotations
-- Product Repository (`JpaRepository`)
-- Product Service with business logic
-- Product Controller with REST APIs
-- Basic Product CRUD APIs
-- Hello API endpoint for health/testing
-- GitHub integration
+| Layer | Technology |
+| --- | --- |
+| Language | Java 17 |
+| Framework | Spring Boot |
+| Persistence | Spring Data JPA, Hibernate |
+| Database | PostgreSQL |
+| Build tool | Maven |
+| Version control | Git, GitHub |
 
----
+## Architecture
 
-## 4. Project Structure
-
+```mermaid
+flowchart LR
+    A[Client / Browser / API Caller] --> B[Controller Layer]
+    B --> C[Service Layer]
+    C --> D[Repository Layer]
+    D --> E[PostgreSQL Database]
 ```
-src/main/java/com/example/ecommerce/
-├── EcommerceApplication.java      # Main Spring Boot application
-├── controller/
-│   ├── HelloController.java       # Hello endpoint
-│   └── ProductController.java     # Product REST APIs
-├── service/
-│   └── ProductService.java        # Product business logic
-├── repository/
-│   └── ProductRepository.java     # Database access
-└── entity/
-    └── Product.java               # Product database model
+
+## Project structure
+
+```text
+ecommerce-backend/
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/example/ecommerce/
+│               ├── controller/
+│               ├── service/
+│               ├── repository/
+│               ├── entity/
+│               ├── EcommerceApplication.java
+│               └── ...
+├── src/main/resources/
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── README.md
+└── LICENSE
 ```
 
-**Layer responsibilities:**
-
-| Layer | Responsibility |
-|-------|----------------|
-| `controller` | Handles HTTP requests and responses |
-| `service` | Contains business logic |
-| `repository` | Communicates with the database |
-| `entity` | Defines database table structure |
-
----
-
-## 5. How to Run Locally
+## Quick start
 
 ### Prerequisites
 
 - Java 17 or higher
-- Maven (or use the included Maven Wrapper)
-- A PostgreSQL database (Supabase recommended)
+- Maven or Maven Wrapper
+- PostgreSQL database access
 - Git
 
-### Step 1: Clone the repository
+### Clone the repository
 
 ```bash
-git clone <your-repository-url>
-cd ecommerce
+git clone https://github.com/ganeshkmmaddu/ecommerce-backend.git
+cd ecommerce-backend
 ```
 
-### Step 2: Configure database connection
+### Configure database connection
 
-Update `src/main/resources/application-dev.properties` with your PostgreSQL (Supabase) credentials:
+Update your PostgreSQL settings in the application config file:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://<host>:5432/<database>
@@ -100,59 +117,37 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 ```
 
-> **Note:** Do not commit real database passwords to GitHub. Use environment-specific configuration for production.
-
-### Step 3: Run the application
-
-**Windows:**
-
-```bash
-.\mvnw.cmd spring-boot:run
-```
-
-**macOS / Linux:**
+### Run the app
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-The application starts on **http://localhost:8080** by default.
+Then open:
 
-### Step 4: Verify the setup
-
-Open in your browser or use curl:
-
-```bash
-curl http://localhost:8080/hello
+```text
+http://localhost:8080
 ```
 
-Expected response:
+## API endpoints
 
-```
-Hello Ecommerce Backend
-```
-
----
-
-## 6. API Endpoints
-
-### Hello API
+### Hello endpoint
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/hello` | Returns a simple welcome message |
+| --- | --- | --- |
+| GET | `/hello` | Health/test response |
 
-### Product APIs
+### Product endpoints
 
 | Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/api/products` | Create a new product |
-| `GET` | `/api/products` | Get all products |
-| `GET` | `/api/products/{id}` | Get a product by ID |
-| `PUT` | `/api/products/{id}` | Update a product by ID |
-| `DELETE` | `/api/products/{id}` | Delete a product by ID |
+| --- | --- | --- |
+| POST | `/api/products` | Create a new product |
+| GET | `/api/products` | Retrieve all products |
+| GET | `/api/products/{id}` | Retrieve a product by ID |
+| PUT | `/api/products/{id}` | Update product details |
+| DELETE | `/api/products/{id}` | Delete a product |
 
-### Example: Create a product
+### Example: create product
 
 ```bash
 curl -X POST http://localhost:8080/api/products \
@@ -165,55 +160,27 @@ curl -X POST http://localhost:8080/api/products \
   }'
 ```
 
-### Example: Get all products
+## Roadmap
 
-```bash
-curl http://localhost:8080/api/products
-```
+Planned enhancements include:
 
-### Product fields
+- DTO layer
+- validation improvements
+- global exception handling
+- category module
+- cart module
+- order module
+- JWT authentication
+- Spring Security
+- React frontend
+- deployment support for cloud hosting
 
-| Field | Type | Required | Notes |
-|-------|------|----------|-------|
-| `name` | String | Yes | Cannot be blank |
-| `description` | String | No | Optional |
-| `price` | BigDecimal | Yes | Must be positive |
-| `stockQuantity` | Integer | Yes | Must be zero or positive |
+## Ownership
 
----
+This repository was created and developed as a personal project by Ganesh Kumar Maddi.
 
-## 7. Future Roadmap
+The project is structured as a practical, production-inspired backend service for e-commerce learning and portfolio demonstration, with a clear path toward more advanced features and deployment readiness.
 
-Planned enhancements for upcoming milestones:
+## License
 
-- [ ] DTO Layer
-- [ ] Validation improvements
-- [ ] Global Exception Handling
-- [ ] Category Module
-- [ ] Product-Category Relationship
-- [ ] Cart Module
-- [ ] Order Module
-- [ ] Spring Security
-- [ ] JWT Authentication
-- [ ] React Frontend
-- [ ] Backend Deployment on Render
-- [ ] Frontend Deployment on Vercel
-
----
-
-## Learning Goals
-
-This project is intentionally built in stages to practice:
-
-- RESTful API design
-- Layered architecture in Spring Boot
-- JPA entity mapping and repository patterns
-- Database integration with PostgreSQL
-- Version control and GitHub workflow
-- Preparing for production-ready features like security, DTOs, and deployment
-
----
-
-## Author
-
-Built as part of a hands-on backend development learning journey.
+This project is provided for learning and demonstration purposes. Add a formal license if you plan to distribute or commercialize it.
